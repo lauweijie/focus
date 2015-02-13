@@ -22,8 +22,6 @@ chrome.alarms.create('', {periodInMinutes: 1});
 
 var prevUpdate;
 
-var storage = [];
-
 var update = function() {
 	console.log('Update triggered.');
 
@@ -35,7 +33,6 @@ var update = function() {
 			chrome.storage.local.get('usage', function(items) {
 				var data = items.usage;
 				if(typeof data !== 'object') {
-					console.log('asd');
 					data = new Object();
 				}
 				data[update.host] = (data[update.host] || 0) + timeDiff;
