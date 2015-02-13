@@ -71,6 +71,16 @@ var getToday = function() {
 	return date;
 };
 
+// Open setup page for new installs
+
+chrome.storage.local.get({installed: false}, function(items) {
+  var installed = items.installed;
+  if(!installed) {
+    chrome.storage.local.set({'installed': new Date()});
+    chrome.tabs.create({url: "src/setup/index.html"});
+  }
+});
+
 
 	// chrome.notifications.create('', {
 	// 	type: 'basic',
