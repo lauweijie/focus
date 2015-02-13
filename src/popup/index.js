@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
 	chrome.storage.local.get('usage', function(result) {
-		displayArrayAsTable('container', result);
+		displayArrayAsTable('container', result.usage);
 			//{'google.com': 10, 'apple.com':20});
 	});
 });
