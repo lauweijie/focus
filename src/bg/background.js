@@ -29,13 +29,14 @@ var update = function() {
 		var update = prevUpdate;
 		prevUpdate = null;
 		var timeDiff = Math.floor((new Date() - update.time) / 1000);
+		var today = getToday();
 		if(timeDiff > 0) {
-			chrome.storage.local.get('usage', function(items) {
+			chrome.storage.local.get({usage: new Object()}, function(items) {
 				var data = items.usage;
-				if(typeof data !== 'object') {
-					data = new Object();
+				if(!data[today]) {
+					data[today] = new Object();
 				}
-				data[update.host] = (data[update.host] || 0) + timeDiff;
+				data[today][update.host] = (data[today][update.host] || 0) + timeDiff;
 				chrome.storage.local.set({'usage': data});
 				console.log(data);
 			});
@@ -59,6 +60,15 @@ var update = function() {
       });
     });
 	});
+};
+
+var getToday = function() {
+	var date = new Date();
+	date.setHours(0);
+	date.setMinutes(0);
+	date.setSeconds(0);
+	date.setMilliseconds(0);
+	return date;
 };
 
 

@@ -15,10 +15,14 @@
     ],
     "persistent": true
   },
-  "options_page": "src/options/index.html",
+  // "options_ui": {
+  //   "page": "src/options/index.html",
+  //   "chrome_style": true
+  // },
+  "options_page": "src/setup/index.html",
   "browser_action": {
     "default_icon": "icons/icon48.png",
-    "default_title": "browser action demo",
+    "default_title": "Focus",
     "default_popup": "src/popup/index.html"
   },
   "permissions": [
