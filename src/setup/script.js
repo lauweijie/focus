@@ -7,6 +7,7 @@ var emailEl = document.getElementById('email');
 
 var selectAllBtnEl = document.getElementById('selectAllBtn');
 var selectNoneBtnEl = document.getElementById('selectNoneBtn');
+var siteSelectorListEl = document.getElementById('siteSelectorList');
 
 var siteSelectorEls = document.getElementsByName('siteSelector');
 
@@ -14,16 +15,26 @@ var siteListEl = document.getElementById('siteList');
 
 var backBtnEl = document.getElementById('backBtn');
 
+// Create site list
+
+siteData.forEach(function(siteObj) {
+	var tdEl = document.createElement('td');
+	tdEl.innerHTML = '<input type="checkbox" name="siteSelector" id="site-' + siteObj.id + '" value="' + siteObj.site + '"><label for="site-' + siteObj.id + '"><img src="img/' + siteObj.id + '.png"><p>' + siteObj.name + '</p></label>';
+	siteSelectorListEl.appendChild(tdEl);
+});
+
 // Populate fields
 
 var populate = function() {
 
 	chrome.storage.local.get({name: ''}, function(items) {
 		nameEl.value = items.name;
+		update1();
 	});
 
 	chrome.storage.local.get({email: ''}, function(items) {
 		emailEl.value = items.email;
+		update1();
 	});
 
 	chrome.storage.local.get({sites: []}, function(items) {
@@ -49,22 +60,22 @@ var isEmail = function(email) {
 	return /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email);
 };
 
-var update = function() {
+var update1 = function() {
 	step1El.disabled = true;
 	if(nameEl.value !== '' && emailEl.value !== '' && isEmail(emailEl.value)) {
 		step1El.disabled = false;
 	}
 };
 
-update();
+update1();
 
-nameEl.addEventListener('keyup', update);
-nameEl.addEventListener('change', update);
-nameEl.addEventListener('mouseout', update);
+nameEl.addEventListener('keyup', update1);
+nameEl.addEventListener('change', update1);
+nameEl.addEventListener('mouseout', update1);
 
-emailEl.addEventListener('keyup', update);
-emailEl.addEventListener('change', update);
-emailEl.addEventListener('mouseout', update);
+emailEl.addEventListener('keyup', update1);
+emailEl.addEventListener('change', update1);
+emailEl.addEventListener('mouseout', update1);
 
 
 // Step 2 - Respond to select all and select none buttons
