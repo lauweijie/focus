@@ -5,21 +5,35 @@
   <style type="text/css">
   	textarea {
   		width: 100%;
-  		height: 100px;
+  		height: 300px;
   	}
   	#status {
   		margin-left: 10px;
   		font-size: 10px;
   		color: #ff0000;
   	}
+  	#advancedSettings {
+  		display: none;
+  		border-top: 1px solid #ccc;
+  		border-bottom: 1px solid #ccc;
+  	}
   </style>
 </head>
 
 <body>
   <p>
-  	<label for="sites">These sites distract me:</label> <br>
+  	<label for="sites"><strong>These sites distract me:</strong></label><br>
   	<textarea id="sites"></textarea>
   </p>
+
+  <p><a href="#" id="advancedLink">Show advanced settings...</a></p>
+
+  <div id="advancedSettings">
+  	<p>
+  		<strong>Saved history:</strong><br>
+  		<a href="#" id="clearHistoryLink">Clear History</a>
+  	</p>
+  </div>
 
   <p>
 	  <button id="save">Save</button>
