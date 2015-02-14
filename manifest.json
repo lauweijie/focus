@@ -15,10 +15,6 @@
     ],
     "persistent": true
   },
-  // "options_ui": {
-  //   "page": "src/options/index.html",
-  //   "chrome_style": true
-  // },
   "options_page": "src/setup/index.html",
   "browser_action": {
     "default_icon": "icons/icon48.png",
