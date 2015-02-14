@@ -12,6 +12,7 @@ saveEl.addEventListener('click', function() {
 		site = site.replace(/^[a-z]+:\/\//, ''); // strips protocol
 		site = site.replace(/\/.*$/, ''); // strips path
 		site = site.replace(/\s/g, ''); // strips whitespace
+		site = site.replace(/^www./,''); // strips www from front of hostname
 		if(site != '' && sites.indexOf(site) === -1) {
 			sites.push(site);
 		}

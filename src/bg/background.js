@@ -30,7 +30,8 @@ var update = function() {
 		prevUpdate = null;
 		var timeDiff = Math.floor((new Date() - update.time) / 1000);
 		var today = getToday();
-		if(timeDiff > 0) {
+    // only update store if timeDiff is not zero and host has a dot
+		if(timeDiff > 0 && /.+\..+/.test(update.host)) {
 			chrome.storage.local.get({usage: new Object()}, function(items) {
 				var data = items.usage;
 				if(!data[today]) {
@@ -53,7 +54,7 @@ var update = function() {
 
         	prevUpdate = {
         		time: new Date(),
-        		host: parser.hostname
+        		host: parser.hostname.replace(/^www./,'') // strip www from front of hostname
         	};
 
         }
