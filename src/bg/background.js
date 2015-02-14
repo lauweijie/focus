@@ -63,6 +63,16 @@ var update = function() {
 	});
 };
 
+
+var periodicExecutor = function(fn, period) {
+  fn();
+  setTimeout(function() {
+    periodicExecutor(fn, period);
+  }, period);
+};
+
+periodicExecutor(update, 5000);
+
 var getToday = function() {
 	var date = new Date();
 	date.setHours(0);
