@@ -13,7 +13,7 @@ var siteSelectorEls = document.getElementsByName('siteSelector');
 
 var siteListEl = document.getElementById('siteList');
 
-var backBtnEl = document.getElementById('backBtn');
+var doneBtnEl = document.getElementById('doneBtn');
 
 // Create site list
 
@@ -125,6 +125,8 @@ step3El.addEventListener('click', function() {
 
 });
 
-// Step 4 - Repopulate when back button pressed
+// Step 4 - Redirect to main page
 
-backBtnEl.addEventListener('click', populate);
+doneBtnEl.addEventListener('click', function() {
+  window.location.href = '/src/main/index.html';
+});
