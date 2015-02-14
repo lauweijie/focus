@@ -53,28 +53,34 @@ var updateData = function() {
     // Update distracting sites count
     statsSiteCountEl.innerHTML = items.sites.length;
 
+    // Populate daily data for past week
+    var dailyData = [];
+    for(var i = 0; i < 7; i++) {
+      dailyData[i] = processDataForDay(i, items.usage, items.sites);
+    }
+
     // Update minutes wasted today
-    todayData = processDataForDay(0, items.usage, items.sites);
+    todayData = dailyData[0];
     if(todayData) {
       statsMinutesWastedEl.innerHTML = (todayData.timeWasted / 60).toFixed(1);
     }
 
     // Update data for past days
-    var pastData = [];
-    for(var i = 0; i < 4; i++) {
-      pastData[i] = processDataForDay(i+1, items.usage, items.sites);
-      if(pastData[i]) {
-        if(pastData[i].timeWasted < 60) {
-          document.getElementById('pastStats' + (i+1)).innerHTML = 'Awesome! You spent less than a minute on sites that distracted you.';
-        } else if(pastData[i].timeWasted < 600) {
-          document.getElementById('pastStats' + (i+1)).innerHTML = 'Great job, you only spent ' + (pastData[i].timeWasted / 60).toFixed(1) + ' minutes on sites that distracted you.';
+    for(var i = 1; i <= 4; i++) {
+      if(dailyData[i]) {
+        if(dailyData[i].timeWasted < 60) {
+          document.getElementById('pastStats' + i).innerHTML = 'Awesome! You spent less than a minute on sites that distracted you.';
+        } else if(dailyData[i].timeWasted < 600) {
+          document.getElementById('pastStats' + i).innerHTML = 'Great job, you only spent ' + (dailyData[i].timeWasted / 60).toFixed(1) + ' minutes on sites that distracted you.';
         } else {
-          document.getElementById('pastStats' + (i+1)).innerHTML = 'You spent ' + (pastData[i].timeWasted / 60).toFixed(1) + ' minutes on sites that distracted you.';
+          document.getElementById('pastStats' + i).innerHTML = 'You spent ' + (dailyData[i].timeWasted / 60).toFixed(1) + ' minutes on sites that distracted you.';
         }
       } else {
-        document.getElementById('pastStats' + (i+1)).innerHTML = 'Great job! You were not on spending any time online on this day!';
+        document.getElementById('pastStats' + i).innerHTML = 'Great job! You were not on spending any time online on this day!';
       }
     }
+
+    updateChart(dailyData);
 
   });
 
@@ -83,3 +89,50 @@ var updateData = function() {
 updateData();
 
 chrome.storage.onChanged.addListener(updateData);
+
+
+var updateChart = function(dailyData) {
+
+  var days = [];
+  var day = new Date();
+  var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  var timeWastedDaily = [];
+  for(var i = 0; i < 7; i++) {
+    days.unshift(day.getDate() + ' ' + months[day.getMonth()]);
+    day.setDate(day.getDate()-1);
+    timeWastedDaily.unshift(dailyData[i].timeWasted / 60 || 0);
+  }
+
+  var chart = new Highcharts.Chart({
+    chart: {
+      renderTo: 'progressChart',
+      backgroundColor:'rgba(255, 255, 255, 0)',
+      defaultSeriesType: 'areaspline'
+    },
+    credits: {
+      enabled: false
+    },
+    title: {
+      text: ''
+    },
+    xAxis: [{
+      categories: days
+    }],
+    yAxis: [{
+      title: {
+        text: 'Minutes'
+      }
+    }],
+    series: [{
+      name: 'Time Wasted',
+      data: timeWastedDaily
+    }],
+    plotOptions: {
+      series: {
+        animation: false,
+        enableMouseTracking: true
+      }
+    }
+  });
+
+};
