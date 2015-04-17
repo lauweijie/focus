@@ -1,6 +1,6 @@
 {
   "name": "Focus",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "manifest_version": 2,
   "description": "Helps you focus on your work.",
   "icons": {
@@ -9,17 +9,14 @@
     "128": "icons/icon128.png"
   },
   "background": {
-    "scripts": [
-      "src/bg/background.js"
-    ],
+    "page": "background/index.html",
     "persistent": true
   },
-  "options_page": "src/setup/index.html",
   "browser_action": {
     "default_icon": "icons/icon48.png",
-    "default_title": "Focus",
-    "default_popup": "src/popup/index.html"
+    "default_title": "Focus"
   },
+  "options_page": "main/settings.html",
   "permissions": [
     "tabs",
     "alarms",
